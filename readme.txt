@@ -13,5 +13,7 @@ pip install playsound==1.2.2
 # для распознования голоса пользователя в текст нужно
 pip install SpeechRecognition
 
-# также нужно
+# также нужно для микрофона
 pip install PyAudio
+
+!!!нужно создать папку audio в исходной директории

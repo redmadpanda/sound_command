@@ -12,6 +12,9 @@ import speech_recognition as sr
 
 
 #-----функции будут здесь---------
+
+# ф получает аудио из микрофона и переводит в текст 
+# использовали гугл библиотеку 
 def listen_command():
 	# получаем аудио из микрофона
 	r = sr.Recognizer()
@@ -19,7 +22,8 @@ def listen_command():
 		print("Скажите вашу команду!")
 		audio = r.listen(source)
 
-	# добавим код из документации speech_recognition
+	# добавим код из документации speech_recognition для гугл распознования
+	# также есть другие распознователи такие как Sphinx, Whisper и тд
 	# recognize speech using Google Speech Recognition
 	try:
 	    # for testing purposes, we're just using the default API key
@@ -35,7 +39,7 @@ def listen_command():
 	except sr.UnknownValueError:
 	    #print("ошибка1 Google Speech Recognition could not understand audio")
 	    # когда долго молчишь, выходит ошибка наверху
-	    # поэтому попробуем так, когда долго молчим, отправим текст 'Молчу'
+	    # поэтому попробуем так, когда долго молчим, отправим текст 'молчу'
 		return 'молчу'
 	except sr.RequestError as e:
 	    print("ошибка2 Could not request results from Google Speech Recognition service; {0}".format(e))
@@ -43,10 +47,12 @@ def listen_command():
 	# уже не неужен
 	#return input("Скажите вашу команду: ")
 
+# ф отвечает разным ответом на определенный текст
 def do_this_command(message):
 	# переведем введенный текст на нижний регистр
 	message = message.lower()
 	# если мы напишем "привет" и др, то получим ответ
+	# используя in ищем именно часть текста в message
 	if "привет" in message:
 		say_message("Привет человек!")
 	elif "пока" in message:
@@ -57,14 +63,17 @@ def do_this_command(message):
 	# UnknownValueError, те когда тишина
 	elif "молчу" in message:
 		print("Жду")
+	elif "кто такой зайд" in message:
+		say_message("Бессмертный робот") 
 	else:
 		say_message("команда не распознана!")
 
+# ф используя gTTS для преобразует текст в звук и сохранит в локальную папку и проиграет
 def say_message(message):
-	# получим текст и приобразуем в звук
+	# получим текст и преобразуем в звук
 	voice = gTTS(message, lang= "ru")
-	# определим случайное название для аудиофайла
-	file_voice_name = "_audio_"+str(time.time())+"_"+str(random.randint(0,100000))+".mp3"
+	# определим папку и название для аудиофайла
+	file_voice_name = "./audio/" + "_audio_"+str(time.time())+"_"+str(random.randint(0,100000))+".mp3"
 	# сохраним звук чтобы потом проиграть, задав случайное имя 
 	voice.save(file_voice_name)
 	# проиграем созраненный звук
@@ -78,7 +87,8 @@ def say_message(message):
 # файла с терминала
 if __name__ == '__main__':
 	while True:
-		# ф будет слушать то что говорит человек
+		# ф будет слушать то что говорит человек на 
+		# микрофон и переводить в текст
 		command = listen_command()
 		# ф будет обрабатывать эту команду
 		do_this_command(command)
