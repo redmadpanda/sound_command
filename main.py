@@ -31,9 +31,12 @@ def listen_command():
 		our_speech = r.recognize_google(audio, language = "ru")
 		print("Вы сказали " + our_speech);
 		return our_speech
-	# далее идет обработчик ошибок	    
+	# далее идет обработчики ошибок	    
 	except sr.UnknownValueError:
-	    print("ошибка1 Google Speech Recognition could not understand audio")
+	    #print("ошибка1 Google Speech Recognition could not understand audio")
+	    # когда долго молчишь, выходит ошибка наверху
+	    # поэтому попробуем так, когда долго молчим, отправим текст 'Молчу'
+		return 'молчу'
 	except sr.RequestError as e:
 	    print("ошибка2 Could not request results from Google Speech Recognition service; {0}".format(e))
 
@@ -50,6 +53,10 @@ def do_this_command(message):
 		say_message("Пока человек")
 		# выйдем с программы
 		exit()
+	# получаем слово 'молчу' если в ф listen_command ошибка 
+	# UnknownValueError, те когда тишина
+	elif "молчу" in message:
+		print("Жду")
 	else:
 		say_message("команда не распознана!")
 
