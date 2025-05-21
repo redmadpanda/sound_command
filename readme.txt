@@ -1,2 +1,11 @@
 # нужно установить гугла голосовой помощник
 pip install gTTS
+
+# чтобы проигрывать сохраненные звуки от гугла нужна библиотека
+# сперва это
+pip install --upgrade setuptools wheel
+# потом только
+pip install playsound
+
+# если не идет, то нужно понизить до playsound 1.2.2. 
+pip install playsound==1.2.2 

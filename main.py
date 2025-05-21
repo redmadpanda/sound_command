@@ -4,6 +4,9 @@ from gtts import gTTS
 import random
 # и время 
 import time 
+# чтобы проиграть звуки нужна библиотека
+# если не работает, посмотри readme.txt
+import playsound
 
 
 #-----функции будут здесь---------
@@ -30,7 +33,9 @@ def say_message(message):
 	file_voice_name = "_audio_"+str(time.time())+"_"+str(random.randint(0,100000))+".mp3"
 	# сохраним звук чтобы потом проиграть, задав случайное имя 
 	voice.save(file_voice_name)
-	print(message)
+	# проиграем созраненный звук
+	playsound.playsound(file_voice_name)
+	print("Говорит голосовой ассистент: " + message)
 
 
 #---------------------------------
