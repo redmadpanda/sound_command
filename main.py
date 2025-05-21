@@ -7,11 +7,38 @@ import time
 # чтобы проиграть звуки нужна библиотека
 # если не работает, посмотри readme.txt
 import playsound
+# чтобы распознать голос в текст
+import speech_recognition as sr
 
 
 #-----функции будут здесь---------
 def listen_command():
-	return input("Скажите вашу команду: ")
+	# получаем аудио из микрофона
+	r = sr.Recognizer()
+	with sr.Microphone() as source:
+		print("Скажите вашу команду!")
+		audio = r.listen(source)
+
+	# добавим код из документации speech_recognition
+	# recognize speech using Google Speech Recognition
+	try:
+	    # for testing purposes, we're just using the default API key
+	    # to use another API key, use `r.recognize_google(audio, key="GOOGLE_SPEECH_RECOGNITION_API_KEY")`
+	    # instead of `r.recognize_google(audio)`
+	    # чтобы вывести на консоль
+	    #print("Google Speech Recognition thinks you said " + r.recognize_google(audio))
+		# сохраним наше аудио на русском языке
+		our_speech = r.recognize_google(audio, language = "ru")
+		print("Вы сказали " + our_speech);
+		return our_speech
+	# далее идет обработчик ошибок	    
+	except sr.UnknownValueError:
+	    print("ошибка1 Google Speech Recognition could not understand audio")
+	except sr.RequestError as e:
+	    print("ошибка2 Could not request results from Google Speech Recognition service; {0}".format(e))
+
+	# уже не неужен
+	#return input("Скажите вашу команду: ")
 
 def do_this_command(message):
 	# переведем введенный текст на нижний регистр

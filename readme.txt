@@ -9,3 +9,9 @@ pip install playsound
 
 # если не идет, то нужно понизить до playsound 1.2.2. 
 pip install playsound==1.2.2 
+
+# для распознования голоса пользователя в текст нужно
+pip install SpeechRecognition
+
+# также нужно
+pip install PyAudio
