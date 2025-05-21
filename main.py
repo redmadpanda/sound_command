@@ -1,5 +1,10 @@
-def print_hi(name):
-	print(f'Hi, {name}')
+# для преобразования текста в звук
+from gtts import gTTS
+# для генерации разного имени файла при сохранении звука
+import random
+# и время 
+import time 
+
 
 #-----функции будут здесь---------
 def listen_command():
@@ -13,10 +18,18 @@ def do_this_command(message):
 		say_message("Привет человек!")
 	elif "пока" in message:
 		say_message("Пока человек")
+		# выйдем с программы
+		exit()
 	else:
 		say_message("команда не распознана!")
 
 def say_message(message):
+	# получим текст и приобразуем в звук
+	voice = gTTS(message, lang= "ru")
+	# определим случайное название для аудиофайла
+	file_voice_name = "_audio_"+str(time.time())+"_"+str(random.randint(0,100000))+".mp3"
+	# сохраним звук чтобы потом проиграть, задав случайное имя 
+	voice.save(file_voice_name)
 	print(message)
 
 
